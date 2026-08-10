@@ -52,7 +52,21 @@ def merge_arr(num1,m,num2,n):#O(nlogn)
         idx=idx-1
         j=j-1
     
-num1=[0]
-num2=[1]
-merge_arr(num1,0,num2,len(num2))
-print(num1)
+def singleNumber(nums):#O(NlogN) my logic
+    nums.sort()
+    privious=None
+    count=1
+    for i in nums:
+        if privious==i:
+            count=count+1
+        else:
+            count=count-1
+        if count<0:
+            return privious
+        privious=i
+    return privious
+def singalNumberXOR(nums):#O(n) perfect
+    ans=0
+    for i in nums:
+        ans^=i
+    return ans
