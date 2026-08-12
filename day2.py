@@ -1,39 +1,39 @@
-def missing_value(arr):
-    n=len(arr)#calculate length
-    visited={i:False for i in range(1,(n*n)+1)}
-    flat_arr=[item for i in arr for item in i] #[[],[]]=>[]
-    repate=0
-    miss=0
-    #Find reapate value
-    for i in flat_arr:
-        if not visited[i]:
-            visited[i]=True
-        else:#already visited
-            repate=i
-    #find missing value
-    for i in visited:
-        if not visited[i]:
-            miss=i
-            break
-    return [repate,miss]
-def missing_value_sorting_aproch(grid):
-    n=len(grid)
-    sq=n*n
-    sets=set()
-    expected_sum=(sq*(sq+1))/2
-    actual_sum=0
-    repeat=0
-    #find the repeating value
-    for i in grid:
-        for j in i:
-            if j in sets:
-                repeat=j
-            else:
-                sets.add(j)
-            actual_sum+=j
-    #find missing value
-    miss=expected_sum+repeat-actual_sum
-    return [repeat,miss]
-arr=[[9,1,7],[8,9,2],[3,4,6]]
-print(missing_value_sorting_aproch(arr))
+def largestSum(nums):
+    cs=0
+    ms=float("-inf")
+    for i in range(len(nums)):
+        cs+=nums[i]
+        ms=max(cs,ms)
+        if cs<0:
+            cs=0
+    return ms
+
+def maxArea(heights):
+    #brutforce
+    n=len(heights)
+    maxWater=0
+    for i in range(n):
+        for j in range(i+1,n):
+            width=j-i
+            hight=min(heights[i],heights[j])
+            area=width*hight
+            maxWater=max(maxWater,area)
+            #move pointer
             
+    return maxWater
+def maxArea_optimal(height):
+    i=0
+    j=len(height)-1
+    maxWater=0
+    while i<j:
+        hight=min(height[i],height[j])
+        width=j-i
+        area=hight*width
+        maxWater=max(maxWater,area)
+        if height[i]<height[j]:
+            i=i+1
+        else:
+            j=j-1
+    return maxWater
+height = [1,8,6,2,5,4,8,3,7]
+print(maxArea_optimal(height))
