@@ -1,72 +1,55 @@
-import math
-
-def merge(array,start,mid,end):
-    temp=[]
-    i=start#itorator for left
-    j=mid+1#itorator for right
-    #merging
-    while(i<=mid and j<=end):
-        if array[i]<=array[j]:
-            temp.append(array[i])
-            i=i+1
-        else:
-            temp.append(array[j])
-            j=j+1
-            
-    #for remainig left elements
-    while i<=mid:
-        temp.append(array[i])
+def productExceptSelf(nums):#time complexity:O(n)
+    out=[]
+    n=len(nums)
+    i=1
+    j=n-2
+    prifix=[1]*n
+    sufix=[1]*n
+    while i<n and j>=0:
+        prifix[i]=prifix[i-1]*nums[i-1]
         i=i+1
-    #for remainig right elements
-    while j<=end:
-        temp.append(array[j])
-        j=j+1
-    #copy temp into original
-    for i in range(len(temp)):
-        array[i+start]=temp[i]
-def margeSort(array,start,end):
-    if start<end:
-        mid=(start+end)//2
-        #left half
-        margeSort(array,start,mid)
-        #right half
-        margeSort(array,mid+1,end)
-        #merge
-        merge(array,start,mid,end)
-
-def merge_arr(num1,m,num2,n):#O(nlogn)
-    idx=m+n-1
-    i=m-1
-    j=n-1
-    while(i>=0 and j>=0):
-        if num1[i]<=num2[j]:
-            num1[idx]=num2[j]
-            j=j-1
-        else:
-            num1[idx]=num1[i]
-            i=i-1
-        idx=idx-1
-    
-    while j>=0:
-        num1[idx]=num2[j]
-        idx=idx-1
+        sufix[j]=sufix[j+1]*nums[j+1]
         j=j-1
-    
-def singleNumber(nums):#O(NlogN) my logic
-    nums.sort()
-    privious=None
-    count=1
-    for i in nums:
-        if privious==i:
-            count=count+1
-        else:
-            count=count-1
-        if count<0:
-            return privious
-        privious=i
-    return privious
-def singalNumberXOR(nums):#O(n) perfect
-    ans=0
-    for i in nums:
-        ans^=i
-    return ans
+    i=0
+    j=n-1
+    while i<n and j>=0:
+        out.append(prifix[i]*sufix[i])
+        i=i+1
+        j=j-1
+    return out
+
+def productExceptSelf_optimal(nums):
+    n=len(nums)
+    out=[1]*(n)
+    for i in range(1,n):
+        out[i]=out[i-1]*nums[i-1]
+    sufix=1
+    for i in range(n-2,-1,-1):
+        sufix*=nums[i+1]
+        out[i]*=sufix
+    return out
+
+def setZeroes(matrix):
+    zero=set()#SET
+    m=len(matrix)#row
+    n=len(matrix[0])#col
+    for i in range(m):
+        s=set(matrix[i])
+        print(matrix[i])
+        if 0 in s:
+           zero.add(i)
+    #create index
+    #for row
+    for i in range(n):
+        if i in zero:
+            matrix[i][:]=[0]*n
+    #col
+    j=0
+    for row in matrix:
+        for i in zero:
+            row[i]=0
+    print(zero)
+    return matrix
+matrix =[[1,1,1],[1,0,1],[1,1,1]]
+print(setZeroes(matrix))
+        
